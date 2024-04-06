@@ -1,13 +1,13 @@
-import { Container, Typography, TextField, Grid, Slider, Checkbox } from '@mui/material';
+import { Container, Typography, TextField, Grid, Slider, Checkbox, Button } from '@mui/material';
 import { useState } from 'react';
-import redImage from './czerwony.jpg';
-import yellowImage from './zolty.jpg';
-import greenImage from './zielony.jpg';
+import redImage from './czerwony.gif';
+import yellowImage from './zolty.gif';
+import greenImage from './zielony.gif';
 import "./App.css";
 
 function App() {
   const [passwordLength, setPasswordLength] = useState(50);
-  const [image, setImage] = useState(redImage);
+  const [image, setImage] = useState(greenImage);
 
   const handleSliderChange = (event, newValue) => {
     setPasswordLength(newValue);
@@ -35,7 +35,7 @@ function App() {
       </header>
       <Grid container alignItems="center" style={{ marginTop: '100px' }}>
         <Grid item xs={6}>
-          <img src={image} alt="Obrazek" style={{ width: '300px', height: '300px' }} />
+          <img src={image} alt="Obrazek" style={{ width: '400px', height: '400px' }} />
         </Grid>
         <Grid item xs={6}>
           <Grid container direction="column" spacing={2}>
@@ -67,6 +67,9 @@ function App() {
               <Checkbox defaultChecked /> ABC
               <Checkbox defaultChecked /> 123
               <Checkbox defaultChecked /> !@#
+            </Grid>
+            <Grid item>
+              <Button variant="contained">Odśwież</Button>
             </Grid>
           </Grid>
         </Grid>
