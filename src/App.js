@@ -23,8 +23,8 @@ function App() {
 
   return (
     <Container>
-      <header className={"App-header"} style={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-        <div style={{ flexGrow: 1, marginTop: '20px'}}>
+      <header className={"App-header"} >
+        <div className='App-div'>
           <Typography variant="h3">
             Generator przykładowych haseł
           </Typography>
@@ -33,9 +33,9 @@ function App() {
           </Typography>
         </div>
       </header>
-      <Grid container alignItems="center" style={{ marginTop: '100px' }}>
+      <Grid container alignItems="center" className='App-grid1'>
         <Grid item xs={6}>
-          <img src={image} alt="Obrazek" style={{ width: '400px', height: '400px' }} />
+          <img src={image} alt="Obrazek"  className='App-image' />
         </Grid>
         <Grid item xs={6}>
           <Grid container direction="column" spacing={2}>
@@ -43,7 +43,7 @@ function App() {
               <TextField 
                 label="" 
                 variant="outlined" 
-                style={{ width: '100%' }}
+                className='App-textField'
               />
             </Grid>
             <Grid item>
@@ -58,7 +58,7 @@ function App() {
                 marks
                 min={1}
                 max={50}
-                style={{ width: '100%' }}
+                className='App-slider'
               />
             </Grid>
             <Grid item>

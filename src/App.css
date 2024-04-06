@@ -1,8 +1,29 @@
 
-.App {
-
+.App-header {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin-top: 30px;
 }
 
-.App-header {
+.App-image {
+  width: 400px;
+  height: 400px;
+}
 
+.App-textField {
+  width: 100%;
+}
+
+.App-slider {
+  width: 100%;
+}
+
+.App-grid1 {
+  margin-top: '100px'
+}
+
+.App-div {
+  flex-grow: 1;
+  margin-top: '20px';
 }
