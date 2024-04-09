@@ -19,12 +19,14 @@ app.use(cors(corsOptions));
 //endpoints
 app.post('/generatePassword', (req, res) => {
   const length = parseInt(req.body.length);
+  const includeLowercase = req.body.includeLowercase;
   const includeUppercase = req.body.includeUppercase;
   const includeNumbers = req.body.includeNumbers;
   const includeSymbols = req.body.includeSymbols;
 
   const generatedPassword = PasswordGenerator.generatePassword(
     length,
+    includeLowercase,
     includeUppercase,
     includeNumbers,
     includeSymbols

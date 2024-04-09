@@ -10,21 +10,38 @@ function App() {
   const [image, setImage] = useState(greenImage);
   const [password, setPassword] = useState("");
 
+  const [includeLowercase, setIncludeLowercase] = useState(true);
+  const [includeUppercase, setIncludeUppercase] = useState(true);
+  const [includeNumbers, setIncludeNumbers] = useState(true);
+  const [includeSymbols, setIncludeSymbols] = useState(true);
+
   useEffect(() => {
-    fetchPassword(passwordLength, false, true, false);
+    fetchPassword(
+      passwordLength,
+      includeLowercase,
+      includeUppercase,
+      includeNumbers,
+      includeSymbols
+    );
   }, [passwordLength]);
 
-  const fetchPassword = async (length, includeUppercase, includeNumbers, includeSymbols) => {
+  const fetchPassword = async (
+    length, includeLowercase, includeUppercase, includeNumbers, includeSymbols
+  ) => {
+
+    
+
     fetch("http://localhost:3001/generatePassword", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        length: "20",
-        includeUppercase: false,
-        includeNumbers: true,
-        includeSymbols: false
+        length: length,
+        includeLowercase: includeLowercase,
+        includeUppercase: includeUppercase,
+        includeNumbers: includeNumbers,
+        includeSymbols: includeSymbols,
       }),
     }).then((response) => {
       response.json().then((data) => {
@@ -91,13 +108,36 @@ function App() {
             </Grid>
             <Grid item>
               <Typography variant="body1">Wybór znaków:</Typography>
-              <Checkbox defaultChecked /> abc
-              <Checkbox defaultChecked /> ABC
-              <Checkbox defaultChecked /> 123
-              <Checkbox defaultChecked /> !@#
+              <Checkbox
+                checked={includeLowercase}
+                onChange={() => setIncludeLowercase(!includeLowercase)}
+              /> abc
+              <Checkbox
+                checked={includeUppercase}
+                onChange={() => setIncludeUppercase(!includeUppercase)}
+              /> ABC
+              <Checkbox
+                checked={includeNumbers}
+                onChange={() => setIncludeNumbers(!includeNumbers)}
+              /> 123
+              <Checkbox
+                checked={includeSymbols}
+                onChange={() => setIncludeSymbols(!includeSymbols)}
+              /> !@#
             </Grid>
             <Grid item>
-              <Button variant="contained">Odśwież</Button>
+              <Button
+                onClick={() => fetchPassword(
+                  passwordLength,
+                  includeLowercase,
+                  includeUppercase,
+                  includeNumbers,
+                  includeSymbols
+                )}
+                variant="contained"
+              >
+                Odśwież
+              </Button>
             </Grid>
           </Grid>
         </Grid>
