@@ -1,8 +1,8 @@
 import { Container, Typography, TextField, Grid, Slider, Checkbox, Button } from '@mui/material';
 import { useState } from 'react';
-import redImage from './czerwony.gif';
-import yellowImage from './zolty.gif';
-import greenImage from './zielony.gif';
+import redImage from "./assets/czerwony.gif";
+import yellowImage from './assets/zolty.gif';
+import greenImage from './assets/zielony.gif';
 import "./App.css";
 
 function App() {
