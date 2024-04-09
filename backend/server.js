@@ -1,11 +1,20 @@
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = express();
 const PORT = 3001;
 
 const PasswordGenerator = require("./PasswordGenerator");
 
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200,
+}
+
 app.use(bodyParser.json());
+app.use(cors(corsOptions));
+
+
 
 //endpoints
 app.post('/generatePassword', (req, res) => {
@@ -21,7 +30,11 @@ app.post('/generatePassword', (req, res) => {
     includeSymbols
   );
 
-  res.send(generatedPassword);
+  const responseData = {
+    password: generatedPassword
+  }
+
+  res.send(JSON.stringify(responseData));
 
 });
 
