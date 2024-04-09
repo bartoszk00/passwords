@@ -4,10 +4,13 @@ import redImage from "./assets/czerwony.gif";
 import yellowImage from './assets/zolty.gif';
 import greenImage from './assets/zielony.gif';
 import "./App.css";
+import PasswordGenerator from 'generate-password';
 
 function App() {
   const [passwordLength, setPasswordLength] = useState(50);
   const [image, setImage] = useState(greenImage);
+
+  const [password, setPassword] = useState(PasswordGenerator.generatePassword(passwordLength));
 
   const handleSliderChange = (event, newValue) => {
     setPasswordLength(newValue);
