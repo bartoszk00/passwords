@@ -1,20 +1,44 @@
 import { Container, Typography, TextField, Grid, Slider, Checkbox, Button } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import redImage from "./assets/czerwony.gif";
 import yellowImage from './assets/zolty.gif';
 import greenImage from './assets/zielony.gif';
 import "./App.css";
-import PasswordGenerator from 'generate-password';
 
 function App() {
-  const [passwordLength, setPasswordLength] = useState(50);
+  const [passwordLength, setPasswordLength] = useState(25);
   const [image, setImage] = useState(greenImage);
+  const [password, setPassword] = useState("");
 
-  const [password, setPassword] = useState(PasswordGenerator.generatePassword(passwordLength));
+  useEffect(() => {
+    fetchPassword(passwordLength, false, true, false);
+  }, [passwordLength]);
+
+  const fetchPassword = async (length, includeUppercase, includeNumbers, includeSymbols) => {
+    fetch("http://localhost:3001/generatePassword", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        length: "20",
+        includeUppercase: false,
+        includeNumbers: true,
+        includeSymbols: false
+      }),
+    }).then((response) => {
+      response.json().then((data) => {
+        setPassword(data.password);
+      }).catch((error) => {
+        console.log(error);
+      });
+    })
+  }
+
 
   const handleSliderChange = (event, newValue) => {
     setPasswordLength(newValue);
- 
+
     if (newValue < 10) {
       setImage(redImage);
     } else if (newValue >= 10 && newValue < 30) {
@@ -38,15 +62,16 @@ function App() {
       </header>
       <Grid container alignItems="center" className='App-grid1'>
         <Grid item xs={6}>
-          <img src={image} alt="Obrazek"  className='App-image' />
+          <img src={image} alt="Obrazek" className='App-image' />
         </Grid>
         <Grid item xs={6}>
           <Grid container direction="column" spacing={2}>
             <Grid item>
-              <TextField 
-                label="" 
-                variant="outlined" 
+              <TextField
+                label=""
+                variant="outlined"
                 className='App-textField'
+                value={password}
               />
             </Grid>
             <Grid item>
