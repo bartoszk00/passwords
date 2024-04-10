@@ -1,11 +1,15 @@
 const express = require('express');
+const { MongoClient } = require("mongodb");
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const PasswordGenerator = require("./PasswordGenerator");
+const PasswordDictionaryFetcher = require('./PasswordDictionaryFetcher');
 const app = express();
 const PORT = 3001;
 
-const PasswordGenerator = require("./PasswordGenerator");
-const PasswordDictionaryFetcher = require('./PasswordDictionaryFetcher');
+const uri = "mongodb+srv://mongopasswords:8SOpI4mJmAs8aWwy@passwordscluster.k0wzssr.mongodb.net/?retryWrites=true&w=majority&appName=PasswordsCluster";
+
+const client = new MongoClient(uri);
 
 const corsOptions = {
   origin: 'http://localhost:3000',
@@ -15,17 +19,22 @@ const corsOptions = {
 app.use(bodyParser.json());
 app.use(cors(corsOptions));
 
-//db connection
-
-PasswordDictionaryFetcher.fetchRandomPasswordDictionaryElement().catch(console.dir);
+const getPasswordDirectory = async (client) => {
+  return await PasswordDictionaryFetcher.fetchRandomPasswordDictionaryElement(client);
+}
 
 //endpoints
-app.post('/generatePassword', (req, res) => {
+app.post('/generatePassword', async (req, res) => {
   const length = parseInt(req.body.length);
   const includeLowercase = req.body.includeLowercase;
   const includeUppercase = req.body.includeUppercase;
   const includeNumbers = req.body.includeNumbers;
   const includeSymbols = req.body.includeSymbols;
+  const includeDictionaries = req.body.includeDictionaries;
+
+  const responseData = {
+    password: "",
+  }
 
   const generatedPassword = PasswordGenerator.generatePassword(
     length,
@@ -35,8 +44,11 @@ app.post('/generatePassword', (req, res) => {
     includeSymbols
   );
 
-  const responseData = {
-    password: generatedPassword,
+  if (includeDictionaries) {
+    let passwordDirectory = await getPasswordDirectory(client);
+    responseData.password = PasswordGenerator.addDictionaryValueToPassword(generatedPassword, passwordDirectory);
+  } else {
+    responseData.password = generatedPassword
   }
 
   res.send(JSON.stringify(responseData));
