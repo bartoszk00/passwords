@@ -1,3 +1,4 @@
+const dotenv = require('dotenv').config({ path: '../.env' });
 const express = require('express');
 const { MongoClient } = require("mongodb");
 const cors = require('cors');
@@ -5,9 +6,10 @@ const bodyParser = require('body-parser');
 const PasswordGenerator = require("./PasswordGenerator");
 const PasswordDictionaryFetcher = require('./PasswordDictionaryFetcher');
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3002;
 
-const uri = "mongodb+srv://mongopasswords:8SOpI4mJmAs8aWwy@passwordscluster.k0wzssr.mongodb.net/?retryWrites=true&w=majority&appName=PasswordsCluster";
+
+const uri = `mongodb+srv://${process.env.MONGO_USER_NAME}:${process.env.MONGO_USER_PASSWORD}@passwordscluster.k0wzssr.mongodb.net/?retryWrites=true&w=majority&appName=PasswordsCluster`;
 
 const client = new MongoClient(uri);
 
