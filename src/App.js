@@ -21,15 +21,25 @@ function App() {
       includeLowercase,
       includeUppercase,
       includeNumbers,
-      includeSymbols
+      includeSymbols,
+      //includeDictionaries
     );
   }, [passwordLength]);
 
+  //========================================================================
+  // po dodaniu checkboxa z dodawaniem wartości ze słownika
+  // i zrobieniem useState do tej zmiennej trzeba:
+  // w fetchPassword odkomentować argument includeDictionaries i z body
+  // i w wywołaniach fetchPassword odkomentować jeszcze includeDictionaries
+  //========================================================================
   const fetchPassword = async (
-    length, includeLowercase, includeUppercase, includeNumbers, includeSymbols
+    length, 
+    includeLowercase, 
+    includeUppercase, 
+    includeNumbers, 
+    includeSymbols,
+    //includeDictionaries
   ) => {
-
-    
 
     fetch("http://localhost:3001/generatePassword", {
       method: "POST",
@@ -42,6 +52,7 @@ function App() {
         includeUppercase: includeUppercase,
         includeNumbers: includeNumbers,
         includeSymbols: includeSymbols,
+        //includeDictionaries: includeDictionaries
       }),
     }).then((response) => {
       response.json().then((data) => {
@@ -132,7 +143,8 @@ function App() {
                   includeLowercase,
                   includeUppercase,
                   includeNumbers,
-                  includeSymbols
+                  includeSymbols,
+                  //includeDictionaries
                 )}
                 variant="contained"
               >

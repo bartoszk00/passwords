@@ -1,9 +1,7 @@
-const { MongoClient } = require("mongodb");
-const uri = "mongodb+srv://mongopasswords:8SOpI4mJmAs8aWwy@passwordscluster.k0wzssr.mongodb.net/?retryWrites=true&w=majority&appName=PasswordsCluster";
 
-const client = new MongoClient(uri);
+
 class PasswordDictionaryFetcher {
-  static async fetchRandomPasswordDictionaryElement() {
+  static async fetchRandomPasswordDictionaryElement(client) {
     try {
       const database = client.db('passwords');
       const collection = database.collection('passwords-dictionary');
@@ -18,9 +16,8 @@ class PasswordDictionaryFetcher {
       console.log(randomPasswordDictionaryElement);
       return randomPasswordDictionaryElement;
 
-    } finally {
-      // Ensures that the client will close when you finish/error
-      await client.close();
+    } catch (error) {
+      console.log(error);
     }
   }
 }
