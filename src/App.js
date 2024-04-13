@@ -1,5 +1,6 @@
 import { Container, Typography, TextField, Grid, Slider, Checkbox, Button } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import redImage from "./assets/czerwony.gif";
 import yellowImage from './assets/zolty.gif';
 import greenImage from './assets/zielony.gif';
@@ -150,6 +151,11 @@ function App() {
               >
                 Odśwież
               </Button>
+              <CopyToClipboard text={password}>
+                <Button variant="contained" sx={{ ml: 1 }}>
+                  Kopiuj
+                </Button>
+              </CopyToClipboard>
             </Grid>
           </Grid>
         </Grid>
