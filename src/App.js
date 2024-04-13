@@ -14,6 +14,7 @@ function App() {
   const [includeUppercase, setIncludeUppercase] = useState(true);
   const [includeNumbers, setIncludeNumbers] = useState(true);
   const [includeSymbols, setIncludeSymbols] = useState(true);
+  const [includeDictionaries, setIncludeDictionaries] = useState(true);
 
   useEffect(() => {
     fetchPassword(
@@ -22,23 +23,18 @@ function App() {
       includeUppercase,
       includeNumbers,
       includeSymbols,
-      //includeDictionaries
+      includeDictionaries
     );
-  }, [passwordLength]);
+  }, [passwordLength, includeLowercase, includeUppercase, includeNumbers, includeSymbols, includeDictionaries]);
+  
 
-  //========================================================================
-  // po dodaniu checkboxa z dodawaniem wartości ze słownika
-  // i zrobieniem useState do tej zmiennej trzeba:
-  // w fetchPassword odkomentować argument includeDictionaries i z body
-  // i w wywołaniach fetchPassword odkomentować jeszcze includeDictionaries
-  //========================================================================
   const fetchPassword = async (
     length, 
     includeLowercase, 
     includeUppercase, 
     includeNumbers, 
     includeSymbols,
-    //includeDictionaries
+    includeDictionaries
   ) => {
 
     fetch("http://localhost:3001/generatePassword", {
@@ -52,7 +48,7 @@ function App() {
         includeUppercase: includeUppercase,
         includeNumbers: includeNumbers,
         includeSymbols: includeSymbols,
-        //includeDictionaries: includeDictionaries
+        includeDictionaries: includeDictionaries
       }),
     }).then((response) => {
       response.json().then((data) => {
@@ -135,6 +131,10 @@ function App() {
                 checked={includeSymbols}
                 onChange={() => setIncludeSymbols(!includeSymbols)}
               /> !@#
+              <Checkbox
+                checked={includeDictionaries}
+                onChange={() => setIncludeDictionaries(!includeDictionaries)}
+              /> Słownik
             </Grid>
             <Grid item>
               <Button
@@ -144,7 +144,7 @@ function App() {
                   includeUppercase,
                   includeNumbers,
                   includeSymbols,
-                  //includeDictionaries
+                  includeDictionaries
                 )}
                 variant="contained"
               >
