@@ -1,4 +1,4 @@
-import { Container, Typography, TextField, Grid, Slider, Checkbox, Button } from '@mui/material';
+import { Container, Typography, TextField, Grid, Slider, Checkbox, Button, Snackbar, Alert } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import redImage from "./assets/czerwony.gif";
@@ -10,6 +10,7 @@ function App() {
   const [passwordLength, setPasswordLength] = useState(25);
   const [image, setImage] = useState(greenImage);
   const [password, setPassword] = useState("");
+  const [isCopied, setIsCopied] = useState(false);
 
   const [includeLowercase, setIncludeLowercase] = useState(true);
   const [includeUppercase, setIncludeUppercase] = useState(true);
@@ -27,13 +28,13 @@ function App() {
       includeDictionaries
     );
   }, [passwordLength, includeLowercase, includeUppercase, includeNumbers, includeSymbols, includeDictionaries]);
-  
+
 
   const fetchPassword = async (
-    length, 
-    includeLowercase, 
-    includeUppercase, 
-    includeNumbers, 
+    length,
+    includeLowercase,
+    includeUppercase,
+    includeNumbers,
     includeSymbols,
     includeDictionaries
   ) => {
@@ -72,6 +73,10 @@ function App() {
       setImage(greenImage);
     }
   };
+
+  const handleOpenSnackbarClose = () => {
+    setIsCopied(false);
+  }
 
   return (
     <Container>
@@ -152,7 +157,10 @@ function App() {
                 Odśwież
               </Button>
               <CopyToClipboard text={password}>
-                <Button variant="contained" sx={{ ml: 1 }}>
+                <Button
+                  onClick={() => setIsCopied(true)}
+                  variant="contained" sx={{ ml: 1 }}
+                >
                   Kopiuj
                 </Button>
               </CopyToClipboard>
@@ -160,6 +168,23 @@ function App() {
           </Grid>
         </Grid>
       </Grid>
+
+      <Snackbar
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        open={isCopied}
+        autoHideDuration={1500}
+        onClose={handleOpenSnackbarClose}
+      >
+        <Alert
+          variant='filled'
+          onClose={handleOpenSnackbarClose}
+          severity="success"
+          
+        >
+          Skopiowano do schowka.
+        </Alert>
+      </Snackbar>
+
     </Container>
   );
 }

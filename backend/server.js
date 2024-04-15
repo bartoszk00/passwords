@@ -58,7 +58,6 @@ app.post('/generatePassword', async (req, res) => {
 });
 
 
-
 // Nasłuchuj na określonym porcie
 app.listen(PORT, () => {
   console.log(`Serwer działa na porcie ${PORT}`);
