@@ -11,6 +11,7 @@ function App() {
   const [passwordLength, setPasswordLength] = useState(25);
   const [image, setImage] = useState(greenImage);
   const [password, setPassword] = useState("");
+  const [passwordScore, setPasswordScore] = useState(0);
   const [isCopied, setIsCopied] = useState(false);
 
   const [includeLowercase, setIncludeLowercase] = useState(true);
@@ -29,6 +30,29 @@ function App() {
       includeDictionaries
     );
   }, [passwordLength, includeLowercase, includeUppercase, includeNumbers, includeSymbols, includeDictionaries]);
+
+  useEffect(() => {
+    handleImageChange();
+
+  }, [passwordScore]);
+
+  const handleImageChange = () => {
+    switch (passwordScore) {
+      case 0:
+      case 1:
+      case 2:
+        setImage(redImage);
+        break;
+      case 3:
+        setImage(yellowImage);
+        break;
+      case 4:
+        setImage(greenImage);
+        break;
+      default:
+        setImage(redImage);
+    }
+  }
 
 
   const fetchPassword = async (
@@ -65,18 +89,16 @@ function App() {
 
   const handleSliderChange = (event, newValue) => {
     setPasswordLength(newValue);
-
-    if (newValue < 10) {
-      setImage(redImage);
-    } else if (newValue >= 10 && newValue < 30) {
-      setImage(yellowImage);
-    } else {
-      setImage(greenImage);
-    }
   };
 
   const handleOpenSnackbarClose = () => {
     setIsCopied(false);
+  }
+
+  const handlePasswordScoreChange = (score, feedback) => {
+    console.log(score);
+    setPasswordScore(score);
+    //console.log(score + ": " + feedback);
   }
 
   return (
@@ -109,6 +131,7 @@ function App() {
                 minLength={8}
                 shortScoreWord="Zbyt krótkie"
                 password={password}
+                onChangeScore={handlePasswordScoreChange}
               />
             </Grid>
             <Grid item>
