@@ -135,7 +135,10 @@ function App() {
               />
             </Grid>
             <Grid item>
-              <Typography variant="body1">Długość hasła: {passwordLength}</Typography>
+              <Typography variant="body1">
+                Długość hasła: {passwordLength}
+                {includeDictionaries? ` + ${password.length - passwordLength} = ${password.length}`: ""}
+              </Typography>
               <Slider
                 defaultValue={50}
                 value={passwordLength}
