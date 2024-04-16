@@ -5,6 +5,7 @@ import redImage from "./assets/czerwony.gif";
 import yellowImage from './assets/zolty.gif';
 import greenImage from './assets/zielony.gif';
 import "./App.css";
+import PasswordStrengthBar from 'react-password-strength-bar';
 
 function App() {
   const [passwordLength, setPasswordLength] = useState(25);
@@ -103,6 +104,12 @@ function App() {
                 className='App-textField'
                 value={password}
               />
+              <PasswordStrengthBar
+                scoreWords={['Słabe', 'Słabe', "Średnie", "Dobre", "Silne"]}
+                minLength={8}
+                shortScoreWord="Zbyt krótkie"
+                password={password}
+              />
             </Grid>
             <Grid item>
               <Typography variant="body1">Długość hasła: {passwordLength}</Typography>
@@ -179,7 +186,7 @@ function App() {
           variant='filled'
           onClose={handleOpenSnackbarClose}
           severity="success"
-          
+
         >
           Skopiowano do schowka.
         </Alert>
