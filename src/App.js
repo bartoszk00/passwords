@@ -64,7 +64,7 @@ function App() {
     includeDictionaries
   ) => {
 
-    fetch("http://localhost:3001/generatePassword", {
+    fetch("http://localhost:3001/generate-password", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
