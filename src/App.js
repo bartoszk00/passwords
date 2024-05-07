@@ -1,11 +1,12 @@
+import React, { useEffect, useState } from 'react';
 import { Container, Typography, TextField, Grid, Slider, Checkbox, Button, Snackbar, Alert } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+import PasswordStrengthBar from 'react-password-strength-bar';
 import redImage from "./assets/czerwony.gif";
 import yellowImage from './assets/zolty.gif';
 import greenImage from './assets/zielony.gif';
 import "./App.css";
-import PasswordStrengthBar from 'react-password-strength-bar';
+import CheckPassword from './Check_password';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 function App() {
   const [passwordLength, setPasswordLength] = useState(25);
@@ -19,6 +20,7 @@ function App() {
   const [includeNumbers, setIncludeNumbers] = useState(true);
   const [includeSymbols, setIncludeSymbols] = useState(true);
   const [includeDictionaries, setIncludeDictionaries] = useState(true);
+  const [site, setSite] = useState(0);
 
   useEffect(() => {
     fetchPassword(
@@ -54,7 +56,6 @@ function App() {
     }
   }
 
-
   const fetchPassword = async (
     length,
     includeLowercase,
@@ -63,7 +64,6 @@ function App() {
     includeSymbols,
     includeDictionaries
   ) => {
-
     fetch("http://localhost:3001/generate-password", {
       method: "POST",
       headers: {
@@ -86,7 +86,6 @@ function App() {
     })
   }
 
-
   const handleSliderChange = (event, newValue) => {
     setPasswordLength(newValue);
   };
@@ -96,111 +95,125 @@ function App() {
   }
 
   const handlePasswordScoreChange = (score, feedback) => {
-    console.log(score);
     setPasswordScore(score);
-    //console.log(score + ": " + feedback);
+  }
+
+  const handleCheckPasswordUsage = () => {
+    setSite(1);
   }
 
   return (
     <Container>
-      <header className={"App-header"} >
-        <div className='App-div'>
-          <Typography variant="h3">
-            Generator przykładowych haseł
-          </Typography>
-          <Typography variant="subtitle1">
-            Wygeneruj silne i bezpieczne hasło dla swojego konta
-          </Typography>
-        </div>
-      </header>
-      <Grid container alignItems="center" className='App-grid1'>
-        <Grid item xs={6}>
-          <img src={image} alt="Obrazek" className='App-image' />
-        </Grid>
-        <Grid item xs={6}>
-          <Grid container direction="column" spacing={2}>
-            <Grid item>
-              <TextField
-                label=""
-                variant="outlined"
-                className='App-textField'
-                value={password}
-              />
-              <PasswordStrengthBar
-                scoreWords={['Słabe', 'Słabe', "Średnie", "Dobre", "Silne"]}
-                minLength={8}
-                shortScoreWord="Zbyt krótkie"
-                password={password}
-                onChangeScore={handlePasswordScoreChange}
-              />
-            </Grid>
-            <Grid item>
-              <Typography variant="body1">
-                Długość hasła: {passwordLength}
-                {includeDictionaries? ` + ${password.length - passwordLength} = ${password.length}`: ""}
-              </Typography>
-              <Slider
-                defaultValue={50}
-                value={passwordLength}
-                onChange={handleSliderChange}
-                aria-labelledby="discrete-slider"
-                valueLabelDisplay="auto"
-                step={1}
-                marks
-                min={1}
-                max={50}
-                className='App-slider'
-              />
-            </Grid>
-            <Grid item>
-              <Typography variant="body1">Wybór znaków:</Typography>
-              <Checkbox
-                checked={includeLowercase}
-                onChange={() => setIncludeLowercase(!includeLowercase)}
-              /> abc
-              <Checkbox
-                checked={includeUppercase}
-                onChange={() => setIncludeUppercase(!includeUppercase)}
-              /> ABC
-              <Checkbox
-                checked={includeNumbers}
-                onChange={() => setIncludeNumbers(!includeNumbers)}
-              /> 123
-              <Checkbox
-                checked={includeSymbols}
-                onChange={() => setIncludeSymbols(!includeSymbols)}
-              /> !@#
-              <Checkbox
-                checked={includeDictionaries}
-                onChange={() => setIncludeDictionaries(!includeDictionaries)}
-              /> Słownik
-            </Grid>
-            <Grid item>
-              <Button
-                onClick={() => fetchPassword(
-                  passwordLength,
-                  includeLowercase,
-                  includeUppercase,
-                  includeNumbers,
-                  includeSymbols,
-                  includeDictionaries
-                )}
-                variant="contained"
-              >
-                Odśwież
-              </Button>
-              <CopyToClipboard text={password}>
+      {site === 0 ? (
+        <header className={"App-header"} >
+          <div className='App-div'>
+            <Typography variant="h3">
+              Generator przykładowych haseł
+            </Typography>
+            <Typography variant="subtitle1">
+              Wygeneruj silne i bezpieczne hasło dla swojego konta
+            </Typography>
+          </div>
+        </header>
+      ) : (
+        <CheckPassword />
+      )}
+      {site === 0 && (
+        <Grid container alignItems="center" className='App-grid1'>
+          <Grid item xs={6}>
+            <img src={image} alt="Obrazek" className='App-image' />
+          </Grid>
+          <Grid item xs={6}>
+            <Grid container direction="column" spacing={2}>
+              <Grid item>
+                <TextField
+                  label=""
+                  variant="outlined"
+                  className='App-textField'
+                  value={password}
+                />
+                <PasswordStrengthBar
+                  scoreWords={['Słabe', 'Słabe', "Średnie", "Dobre", "Silne"]}
+                  minLength={8}
+                  shortScoreWord="Zbyt krótkie"
+                  password={password}
+                  onChangeScore={handlePasswordScoreChange}
+                />
+              </Grid>
+              <Grid item>
+                <Typography variant="body1">
+                  Długość hasła: {passwordLength}
+                  {includeDictionaries ? ` + ${password.length - passwordLength} = ${password.length}` : ""}
+                </Typography>
+                <Slider
+                  defaultValue={50}
+                  value={passwordLength}
+                  onChange={handleSliderChange}
+                  aria-labelledby="discrete-slider"
+                  valueLabelDisplay="auto"
+                  step={1}
+                  marks
+                  min={1}
+                  max={50}
+                  className='App-slider'
+                />
+              </Grid>
+              <Grid item>
+                <Typography variant="body1">Wybór znaków:</Typography>
+                <Checkbox
+                  checked={includeLowercase}
+                  onChange={() => setIncludeLowercase(!includeLowercase)}
+                /> abc
+                <Checkbox
+                  checked={includeUppercase}
+                  onChange={() => setIncludeUppercase(!includeUppercase)}
+                /> ABC
+                <Checkbox
+                  checked={includeNumbers}
+                  onChange={() => setIncludeNumbers(!includeNumbers)}
+                /> 123
+                <Checkbox
+                  checked={includeSymbols}
+                  onChange={() => setIncludeSymbols(!includeSymbols)}
+                /> !@#
+                <Checkbox
+                  checked={includeDictionaries}
+                  onChange={() => setIncludeDictionaries(!includeDictionaries)}
+                /> Słownik
+              </Grid>
+              <Grid item>
                 <Button
-                  onClick={() => setIsCopied(true)}
+                  onClick={() => fetchPassword(
+                    passwordLength,
+                    includeLowercase,
+                    includeUppercase,
+                    includeNumbers,
+                    includeSymbols,
+                    includeDictionaries
+                  )}
+                  variant="contained"
+                >
+                  Odśwież
+                </Button>
+                <CopyToClipboard text={password}>
+                  <Button
+                    onClick={() => setIsCopied(true)}
+                    variant="contained" sx={{ ml: 1 }}
+                  >
+                    Kopiuj
+                  </Button>
+                </CopyToClipboard>
+                <Button
+                  onClick={handleCheckPasswordUsage}
                   variant="contained" sx={{ ml: 1 }}
                 >
-                  Kopiuj
+                  Sprawdź ile razy hasło było użyte
                 </Button>
-              </CopyToClipboard>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      )}
 
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
@@ -212,12 +225,10 @@ function App() {
           variant='filled'
           onClose={handleOpenSnackbarClose}
           severity="success"
-
         >
           Skopiowano do schowka.
         </Alert>
       </Snackbar>
-
     </Container>
   );
 }
