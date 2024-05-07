@@ -27,7 +27,7 @@ const getPasswordDirectory = async (client) => {
 }
 
 //endpoints
-app.post('/generatePassword', async (req, res) => {
+app.post('/generate-password', async (req, res) => {
   const length = parseInt(req.body.length);
   const includeLowercase = req.body.includeLowercase;
   const includeUppercase = req.body.includeUppercase;
@@ -60,7 +60,7 @@ app.post('/generatePassword', async (req, res) => {
 
 app.get('/check-pwned', async (req, res) => {
     const passwordPwnedService = new PasswordPwnedService();
-    
+
     const numberOfOccurrences = await passwordPwnedService.isPasswordPwned(req.body.password);
 
     res.send(JSON.stringify("occurrences: " + numberOfOccurrences));
