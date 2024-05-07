@@ -5,6 +5,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const PasswordGenerator = require("./PasswordGenerator");
 const PasswordDictionaryFetcher = require('./PasswordDictionaryFetcher');
+const PasswordPwnedService = require('./PasswordPwnedService');
 const app = express();
 const PORT = process.env.PORT || 3002;
 
@@ -56,6 +57,14 @@ app.post('/generatePassword', async (req, res) => {
   res.send(JSON.stringify(responseData));
 
 });
+
+app.get('/check-pwned', async (req, res) => {
+    const passwordPwnedService = new PasswordPwnedService();
+    
+    const numberOfOccurrences = await passwordPwnedService.isPasswordPwned(req.body.password);
+
+    res.send(JSON.stringify("occurrences: " + numberOfOccurrences));
+})
 
 
 // Nasłuchuj na określonym porcie

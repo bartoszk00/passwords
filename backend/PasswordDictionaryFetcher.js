@@ -13,7 +13,6 @@ class PasswordDictionaryFetcher {
 
       const randomIndex = Math.floor(Math.random() * passwordsDictionary.length);
       const randomPasswordDictionaryElement = passwordsDictionary[randomIndex].password;
-      console.log(randomPasswordDictionaryElement);
       return randomPasswordDictionaryElement;
 
     } catch (error) {
