@@ -59,11 +59,13 @@ app.post('/generate-password', async (req, res) => {
 });
 
 app.get('/check-pwned', async (req, res) => {
-    const passwordPwnedService = new PasswordPwnedService();
+  const password = req.query.password; // Odczytaj hasło z parametru zapytania
 
-    const numberOfOccurrences = await passwordPwnedService.isPasswordPwned(req.body.password);
+  const passwordPwnedService = new PasswordPwnedService();
 
-    res.send(JSON.stringify("occurrences: " + numberOfOccurrences));
+  const numberOfOccurrences = await passwordPwnedService.isPasswordPwned(password);
+
+  res.json({ numberOfOccurrences });
 })
 
 

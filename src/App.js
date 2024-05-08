@@ -207,7 +207,7 @@ function App() {
                   onClick={handleCheckPasswordUsage}
                   variant="contained" sx={{ ml: 1 }}
                 >
-                  Sprawdź ile razy hasło było użyte
+                  Sprawdź pwned hasła
                 </Button>
               </Grid>
             </Grid>
