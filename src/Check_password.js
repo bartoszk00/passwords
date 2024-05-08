@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { Button, TextField, Grid } from '@mui/material';
 import App from './App';
 import axios from 'axios';
+import mem from "./assets/mem.jpg";
+import memDwa from "./assets/mem2.jpg";
+import tlo from "./assets/tlo.jpg";
+import './App.css';
 
 function CheckPassword() {
   const [site, setSite] = useState(1);
@@ -21,8 +25,8 @@ function CheckPassword() {
       const response = await axios.get('http://localhost:3001/check-pwned?password=' + password);
       if (response.data) {
         const data = response.data;
-        const numberOfOccurrences = parseInt(data.match(/\d+/)[0]); // Wyodrębnienie liczby z odpowiedzi
-        setPwned(numberOfOccurrences); // Ustawienie tylko liczby wystąpień pownowania
+        const numberOfOccurrences = parseInt(data.match(/\d+/)[0]);
+        setPwned(numberOfOccurrences); 
       } else {
         console.error('Odpowiedź z serwera jest pusta.');
       }
@@ -55,6 +59,22 @@ function CheckPassword() {
               
           </Button><br /> <br />
           Twoje hasło zostało uzyte {Pwned} razy!
+          < br/> <br />
+          {Pwned > 0 && (
+              <div style={{ backgroundColor: '#8B0000', padding: '10px', color: 'white', borderRadius: '5px', marginBottom: '10px' }}>
+                <h2>Zła wiadomość!</h2>
+                To hasło pojawiło się wcześniej w wyniku naruszenia danych i nigdy nie powinno być używane. Jeśli kiedykolwiek wcześniej używałeś je gdziekolwiek, zmień je! <br/><br/>
+                <img src={memDwa} alt="Obrazek" className='mem' style={{ width: '300px', height: '300px' }} />
+              </div>
+            )}
+            {Pwned === 0 && (
+              <div style={{ backgroundColor: 'green', padding: '10px', color: 'white', borderRadius: '5px', marginBottom: '10px' }}>
+                <h2>Dobra wiadomość!</h2>
+                To hasło nie zostało znalezione w żadnym z Pwned Passwords
+                To niekoniecznie oznacza, że jest to dobre hasło, po prostu nie jest indeksowane na tej stronie.<br/><br/>
+                <img src={mem} alt="Obrazek" className='mem' style={{ width: '300px', height: '300px' }} />
+              </div>
+            )}
           <br /><br />
             <Button
               onClick={handleCheckPasswordUsage}

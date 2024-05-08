@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Typography, TextField, Grid, Slider, Checkbox, Button, Snackbar, Alert } from '@mui/material';
 import PasswordStrengthBar from 'react-password-strength-bar';
-import redImage from "./assets/czerwony.gif";
+import redImage from "./assets/czerwony.png";
 import yellowImage from './assets/zolty.gif';
 import greenImage from './assets/zielony.gif';
 import "./App.css";

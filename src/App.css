@@ -1,4 +1,13 @@
 
+body {
+  background-image: url('./assets/tlo.jpg');
+  background-size: cover;
+  background-position: center;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+}
+
 .App-header {
   display: flex;
   align-items: center;
@@ -8,7 +17,7 @@
 
 .App-image {
   width: 400px;
-  height: 400px;
+  height: 350px;
 }
 
 .App-textField {
