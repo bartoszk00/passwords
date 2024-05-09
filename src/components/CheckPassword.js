@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Button, TextField, Grid } from '@mui/material';
-import App from './App';
+import App from '../App';
 import axios from 'axios';
-import mem from "./assets/mem.jpg";
-import memDwa from "./assets/mem2.jpg";
-import tlo from "./assets/tlo.jpg";
-import './App.css';
+import mem from "../assets/mem.jpg";
+import memDwa from "../assets/mem2.jpg";
+import '../App.css';
 
-function CheckPassword() {
+function CheckPassword(setWhichSite) {
   const [site, setSite] = useState(1);
   const [Pwned, setPwned] = useState(0);
   const [password, setPassword] = useState('');
@@ -24,8 +23,10 @@ function CheckPassword() {
     try {
       const response = await axios.get('http://localhost:3001/check-pwned?password=' + password);
       if (response.data) {
+
         const data = response.data;
-        const numberOfOccurrences = parseInt(data.match(/\d+/)[0]);
+        const numberOfOccurrences = data.numberOfOccurrences;
+
         setPwned(numberOfOccurrences); 
       } else {
         console.error('Odpowiedź z serwera jest pusta.');

@@ -5,7 +5,7 @@ import redImage from "./assets/czerwony.png";
 import yellowImage from './assets/zolty.gif';
 import greenImage from './assets/zielony.gif';
 import "./App.css";
-import CheckPassword from './Check_password';
+import CheckPassword from './components/CheckPassword';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 function App() {
@@ -116,7 +116,7 @@ function App() {
           </div>
         </header>
       ) : (
-        <CheckPassword />
+        <CheckPassword bebe={setSite}/>
       )}
       {site === 0 && (
         <Grid container alignItems="center" className='App-grid1'>
